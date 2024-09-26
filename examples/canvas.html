@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Flip Demo</title>
+  <style>
+    html{
+      background-color: blue;
+    }
+    #book {
+      width: 500px;
+      height: 600px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="book"></div>
+  <script src="../dist/js/pageFlip.browser.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const pageFlip = new St.PageFlip(document.getElementById('book'), {
+            width: 600, // required parameter - base page width
+            height: 600, // required parameter - base page height
+            minWidth: 300,
+            minHeight: 300,
+            maxWidth: 1024,
+            maxHeight: 1024,
+            size: "stretch",
+            showCover: true,
+            usePortrait: true,
+            drawShadow: true,
+            autoSize: true,
+            backgroundColor: "blue",
+        });
+
+        // Load pages from images
+        pageFlip.loadFromImages([
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/0.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/1.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/2.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/3.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/4.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/5.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/6.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/7.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/8.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/9.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/10.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/11.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/12.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/13.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/14.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/15.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/16.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/17.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/18.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/19.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/20.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/21.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/22.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/23.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/24.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/25.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/26.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/27.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/28.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/29.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/30.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/31.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/32.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/33.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/34.jpg",
+            "https://dev.book.youwriteit.allianz.ie/images/1725463196649-341f63a4bbb3b757fc68acee04ac64a4/35.jpg",
+            
+        ], function() {
+            // Callback function executed when all images are loaded
+            console.log('All pages loaded');
+        });
+    });
+  </script>
+</body>
+</html>

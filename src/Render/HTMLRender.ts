@@ -371,12 +371,40 @@ export class HTMLRender extends Render {
     public update(): void {
         super.update();
 
-        if (this.rightPage !== null) {
-            this.rightPage.setOrientation(PageOrientation.RIGHT);
-        }
+        const isFirstPage = this.app.getCurrentPageIndex() === 0;
+        const isLastPage = this.app.getCurrentPageIndex() === this.app.getPageCount() - 1;
 
-        if (this.leftPage !== null) {
-            this.leftPage.setOrientation(PageOrientation.LEFT);
+        console.log(isFirstPage, isLastPage);
+
+        if (isFirstPage || isLastPage) {
+            const canvasWidth = this.element.clientWidth;
+            console.log("canvas", canvasWidth)
+            const bookWidth = this.rightPage ? (this.rightPage as HTMLPage).getElement().clientWidth : 0;
+            console.log("book", bookWidth)
+            const offsetX = (canvasWidth - bookWidth) / 2;
+            console.log("offset", offsetX)
+
+            console.log((this.rightPage as HTMLPage)?.getElement().getBoundingClientRect())
+
+            if (this.rightPage !== null) {
+                (this.rightPage as HTMLPage).getElement().style.transform = `translateX(${offsetX}px)`;
+                this.rightPage.setOrientation(PageOrientation.RIGHT);
+            }
+
+            if (this.leftPage !== null) {
+                (this.leftPage as HTMLPage).getElement().style.transform = `translateX(${offsetX}px)`;
+                this.leftPage.setOrientation(PageOrientation.LEFT);
+            }
+        } else {
+            if (this.rightPage !== null) {
+                (this.rightPage as HTMLPage).getElement().style.transform = '';
+                this.rightPage.setOrientation(PageOrientation.RIGHT);
+            }
+
+            if (this.leftPage !== null) {
+                (this.leftPage as HTMLPage).getElement().style.transform = '';
+                this.leftPage.setOrientation(PageOrientation.LEFT);
+            }
         }
     }
 }

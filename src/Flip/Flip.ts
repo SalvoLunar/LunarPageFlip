@@ -218,6 +218,7 @@ export class Flip {
      * @param {FlipCorner} corner - Active page corner when turning
      */
     public flipToPage(page: number, corner: FlipCorner): void {
+
         const current = this.app.getPageCollection().getCurrentSpreadIndex();
         const next = this.app.getPageCollection().getSpreadIndexByPage(page);
 
@@ -241,6 +242,7 @@ export class Flip {
      * @param {FlipCorner} corner - Active page corner when turning
      */
     public flipNext(corner: FlipCorner): void {
+    
         this.flip({
             x: this.render.getRect().left + this.render.getRect().pageWidth * 2 - 10,
             y: corner === FlipCorner.TOP ? 1 : this.render.getRect().height - 2,

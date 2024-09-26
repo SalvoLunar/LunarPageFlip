@@ -3,6 +3,7 @@ import { PageFlip } from '../PageFlip';
 import { FlipDirection } from '../Flip/Flip';
 import { PageOrientation } from '../Page/Page';
 import { FlipSetting } from '../Settings';
+import { PositionAdjuster } from '../Flip/AdjustPosition';
 
 /**
  * Class responsible for rendering the Canvas book
@@ -10,6 +11,8 @@ import { FlipSetting } from '../Settings';
 export class CanvasRender extends Render {
     private readonly canvas: HTMLCanvasElement;
     private readonly ctx: CanvasRenderingContext2D;
+    private moveToPositionCalled: boolean = false; // Flag to track if moveToPosition has been called
+
 
     constructor(app: PageFlip, setting: FlipSetting, inCanvas: HTMLCanvasElement) {
         super(app, setting);
@@ -27,10 +30,34 @@ export class CanvasRender extends Render {
     }
 
     protected drawFrame(): void {
+        //console.log('drawFrame');
         this.clear();
 
-        if (this.orientation !== Orientation.PORTRAIT)
+        const rect = this.getRect();
+        const isFirstPage = this.app.getCurrentPageIndex() === 0;
+        const isLastPage = this.app.getCurrentPageIndex() === this.app.getPageCount() - 1;
+        const canvasWidth = this.ctx.canvas.width; // Replace with the actual method to get canvas width
+        
+
+        const positionAdjuster = new PositionAdjuster(this.ctx);
+
+        if (this.orientation !== Orientation.PORTRAIT) {
+
+            if (isFirstPage) {
+
+                this.ctx.save();
+                this.ctx.translate(-(rect.pageWidth)/2, 0);
+                // this.moveToPositionCalled = false;
+                
+            }
+            else if(isLastPage){
+
+                this.ctx.save();
+                this.ctx.translate((rect.pageWidth)/2, 0);
+
+            }
             if (this.leftPage != null) this.leftPage.simpleDraw(PageOrientation.LEFT);
+        }
 
         if (this.rightPage != null) this.rightPage.simpleDraw(PageOrientation.RIGHT);
 
@@ -45,12 +72,15 @@ export class CanvasRender extends Render {
             this.drawInnerShadow();
         }
 
-        const rect = this.getRect();
-
         if (this.orientation === Orientation.PORTRAIT) {
             this.ctx.beginPath();
             this.ctx.rect(rect.left + rect.pageWidth, rect.top, rect.width, rect.height);
             this.ctx.clip();
+        }
+
+        if (isFirstPage || isLastPage) {
+            this.ctx.restore();
+            // this.transitionAmount = 0;
         }
     }
 
@@ -161,7 +191,7 @@ export class CanvasRender extends Render {
     }
 
     private clear(): void {
-        this.ctx.fillStyle = 'white';
+        this.ctx.fillStyle = this.setting.backgroundColor;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
