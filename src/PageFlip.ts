@@ -13,8 +13,8 @@ import { EventObject } from './Event/EventObject';
 import { HTMLRender } from './Render/HTMLRender';
 import { FlipSetting, Settings } from './Settings';
 import { UI } from './UI/UI';
-
 import './Style/stPageFlip.css';
+import { PositionAdjuster } from './Flip/AdjustPosition';
 
 /**
  * Class representing a main PageFlip object
@@ -32,6 +32,7 @@ export class PageFlip extends EventObject {
     private pages: PageCollection = null;
     private flipController: Flip;
     private render: Render;
+    private positonAdjuster: PositionAdjuster;
 
     private ui: UI;
 
@@ -47,6 +48,7 @@ export class PageFlip extends EventObject {
 
         this.setting = new Settings().getSettings(setting);
         this.block = inBlock;
+        this.positonAdjuster = new PositionAdjuster();
     }
 
     /**
@@ -63,6 +65,7 @@ export class PageFlip extends EventObject {
     public update(): void {
         this.render.update();
         this.pages.show();
+
     }
 
     /**
@@ -85,6 +88,7 @@ export class PageFlip extends EventObject {
 
         this.pages.show(this.setting.startPage);
 
+
         // safari fix
         setTimeout(() => {
             this.ui.update();
@@ -92,6 +96,8 @@ export class PageFlip extends EventObject {
                 page: this.setting.startPage,
                 mode: this.render.getOrientation(),
             });
+            if(this.render.getOrientation() === 'landscape')
+                this.positonAdjuster.moveToCenter(this.render as CanvasRender);
         }, 1);
     }
 

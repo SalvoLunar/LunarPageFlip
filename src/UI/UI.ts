@@ -106,6 +106,7 @@ export abstract class UI {
      * @param {Orientation} orientation - New book orientation
      */
     public setOrientationStyle(orientation: Orientation): void {
+
         this.wrapper.classList.remove('--portrait', '--landscape');
 
         if (orientation === Orientation.PORTRAIT) {

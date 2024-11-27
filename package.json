@@ -1,17 +1,17 @@
 {
-  "name": "page-flip",
-  "version": "2.0.7",
+  "name": "@salvolunar/page-flip-lunar",
+  "version": "2.0.11",
   "main": "dist/js/page-flip.browser.js",
   "browser": "dist/js/page-flip.browser.js",
-  "author": "oleg.litovski9@gmail.com",
+  "author": "missioncontrol@lunarct.com",
   "license": "MIT",
   "description": "Powerful, simple and flexible JS Library for creating realistic and beautiful page turning effect",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Nodlik/StPageFlip.git"
+    "url": "git+https://github.com/SalvoLunar/LunarPageFlip.git"
   },
   "publishConfig": {},
-  "homepage": "https://nodlik.github.io/StPageFlip/",
+  "homepage": "https://github.com/SalvoLunar/LunarPageFlip",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
@@ -46,5 +46,11 @@
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.36.0"
+  },
+  "bugs": {
+    "url": "https://github.com/SalvoLunar/LunarPageFlip/issues"
+  },
+  "directories": {
+    "example": "examples"
   }
 }

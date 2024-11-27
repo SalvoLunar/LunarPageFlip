@@ -1,6 +1,8 @@
 import {UI} from "./UI";
 import {PageFlip} from "../PageFlip";
 import {FlipSetting} from "../Settings";
+import { PositionAdjuster } from "../Flip/AdjustPosition";
+import { CanvasRender } from "../Render/CanvasRender";
 
 /**
  * UI for canvas mode
@@ -38,7 +40,9 @@ export class CanvasUI extends UI {
     }
 
     public update(): void {
+        
         this.resizeCanvas();
         this.app.getRender().update();
+        
     }
 }

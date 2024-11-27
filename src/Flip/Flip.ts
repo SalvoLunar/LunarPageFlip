@@ -4,6 +4,9 @@ import { Helper } from '../Helper';
 import { PageRect, Point } from '../BasicTypes';
 import { FlipCalculation } from './FlipCalculation';
 import { Page, PageDensity } from '../Page/Page';
+import { CanvasRender } from '../Render/CanvasRender';
+import { PositionAdjuster } from './AdjustPosition';
+
 
 /**
  * Flipping direction
@@ -35,7 +38,7 @@ export const enum FlippingState {
     FLIPPING = 'flipping',
 
     /** Base state */
-    READ = 'read',
+    READ = 'read'
 }
 
 /**
@@ -51,6 +54,8 @@ export class Flip {
     private calc: FlipCalculation = null;
 
     private state: FlippingState = FlippingState.READ;
+
+    private positionAdjuster: PositionAdjuster = new PositionAdjuster();    
 
     constructor(render: Render, app: PageFlip) {
         this.render = render;
@@ -76,8 +81,10 @@ export class Flip {
      *
      * @param globalPos - Touch Point Coordinates (relative window)
      */
-    public flip(globalPos: Point): void {
+    public async flip(globalPos: Point): Promise<void> {
+
         if (this.app.getSettings().disableFlipByClick && !this.isPointOnCorners(globalPos)) return;
+
 
         // the flipiing process is already running
         if (this.calc !== null) this.render.finishAnimation();
@@ -87,6 +94,8 @@ export class Flip {
         const rect = this.getBoundsRect();
 
         this.setState(FlippingState.FLIPPING);
+
+        if (this.render.getOrientation() === Orientation.LANDSCAPE) await this.adjustPosition();
 
         // Margin from top to start flipping
         const topMargins = rect.height / 10;
@@ -219,6 +228,7 @@ export class Flip {
      */
     public flipToPage(page: number, corner: FlipCorner): void {
 
+
         const current = this.app.getPageCollection().getCurrentSpreadIndex();
         const next = this.app.getPageCollection().getSpreadIndexByPage(page);
 
@@ -277,6 +287,16 @@ export class Flip {
     }
 
     /**
+     * Called before the page is turned. Adjust the position of the book
+     * to the center of the screen
+     */
+
+    public async adjustPosition(): Promise<void> {
+        if (this.calc === null) return;
+        else return this.positionAdjuster.animateToCenter(this.render as CanvasRender, 300, this.app.getCurrentPageIndex(), this.app.getPageCount(), this.calc.getDirection());
+    }
+
+    /**
      * Fold the corners of the book when the mouse pointer is over them.
      * Called when the mouse pointer is over the book without clicking
      *
@@ -329,12 +349,14 @@ export class Flip {
      * @param {boolean} isTurned - will the page turn over, or just bring it back
      * @param {boolean} needReset - reset the flipping process at the end of the animation
      */
-    private animateFlippingTo(
+    private async animateFlippingTo(
         start: Point,
         dest: Point,
         isTurned: boolean,
         needReset = true
-    ): void {
+    ): Promise<void> {
+
+        // console.log("flipping to", dest);
         const points = Helper.GetCordsFromTwoPoint(start, dest);
 
         // Create frames
@@ -342,6 +364,7 @@ export class Flip {
         for (const p of points) frames.push(() => this.do(p));
 
         const duration = this.getAnimationDuration(points.length);
+
 
         this.render.startAnimation(frames, duration, () => {
             // callback function
@@ -434,9 +457,7 @@ export class Flip {
     private isPointOnCorners(globalPos: Point): boolean {
         const rect = this.getBoundsRect();
         const pageWidth = rect.pageWidth;
-
         const operatingDistance = Math.sqrt(Math.pow(pageWidth, 2) + Math.pow(rect.height, 2)) / 5;
-
         const bookPos = this.render.convertToBook(globalPos);
 
         return (
